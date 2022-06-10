@@ -2,8 +2,7 @@
   overflow-wrap: break-word;
   flex-grow: 1;
   display: grid;
-  grid-template-columns: minmax(min-content, max-content) 24px;
-  grid-template-rows: minmax(min-content, max-content) minmax(min-content, max-content);
+  grid-template-columns: minmax(0, max-content) 24px;
   column-gap: 18px;
   row-gap: 16px;
 }
@@ -11,10 +10,11 @@
 @media screen and (max-width: 768px) {
   .profile__info {
     padding-top: 26px;
-    padding-bottom: 36px;
+    padding-bottom: 33px;
     text-align: center;
     column-gap: 10px;
-    row-gap: 14px;
-    grid-template-columns: minmax(min-content, max-content) 18px;
+    row-gap: 8px;
+    grid-template-columns: minmax(0, max-content) 18px;
+    padding-left: 27px;
   }
 }

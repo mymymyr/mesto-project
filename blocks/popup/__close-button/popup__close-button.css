@@ -1,4 +1,7 @@
-.popup__close-icon {
+.popup__close-button {
+  border: none;
+  padding: 0;
+  background: center / contain no-repeat url("../../../images/close-icon.svg");
   position: absolute;
   top: -40px;
   right: -40px;
@@ -7,13 +10,13 @@
   transition: opacity 0.3s;
 }
 
-.popup__close-icon:hover {
+.popup__close-button:hover {
   opacity: 0.6;
   cursor: pointer;
 }
 
 @media screen and (max-width: 768px) {
-  .popup__close-icon {
+  .popup__close-button {
     top: -36px;
     right: 0;
     width: 20px;

@@ -3,12 +3,18 @@
   min-width: 142px;
   min-height: 33px;
   background: center/contain no-repeat url("../../../images/header-logo.svg");
-  margin-bottom: 41px;
+  margin-bottom: 36px;
+  transition: opacity 0.3s;
+}
+
+.header__logo:hover {
+  opacity: 0.6;
+  cursor: pointer;
 }
 
 @media screen and (max-width: 768px) {
   .header__logo {
-    margin-bottom: 32px;
+    margin-bottom: 26px;
     margin-left: 27px;
     min-width: 104px;
     min-height: 24px;
