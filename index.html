@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Место</title>
+  <link rel="stylesheet" href="./pages/index.css">
+</head>
+
+<body class="page">
+  <header class="header">
+    <a class="header__logo" href="#"></a>
+    <div class="header__line"></div>
+  </header>
+  <main class="content">
+    <section class="profile">
+      <img class="profile__avatar" src="./images/avatar-cousteau.jpg" alt="Фотография профиля Кусто">
+      <div class="profile__info">
+        <h1 class="profile__title">Жак-Ив Кусто</h1>
+        <p class="profile__subtitle">Исследователь океана</p>
+        <button class="profile__edit-button"></button>
+      </div>
+      <button class="profile__add-button"></button>
+    </section>
+    <section class="elements">
+      <ul class="elements__items">
+        <li class="elements__item">
+          <img class="elements__image" src="./images/place-karachaevsk.jpg" alt="Здание в горах">
+          <p class="elements__text">Карачаевск</p>
+          <button class="elements__like-button elements__like-button_active"></button>
+        </li>
+        <li class="elements__item">
+          <img class="elements__image" src="./images/place-elbrus.jpg" alt="Гора на фоне оранжевого неба">
+          <p class="elements__text">Гора Эльбрус</p>
+          <button class="elements__like-button"></button>
+        </li>
+        <li class="elements__item">
+          <img class="elements__image" src="./images/place-dombay.jpg" alt="Горы с заснеженными вершинами">
+          <p class="elements__text">Домбай</p>
+          <button class="elements__like-button"></button>
+        </li>
+        <li class="elements__item">
+          <img class="elements__image" src="./images/place-elbrus.jpg" alt="Гора на фоне оранжевого неба">
+          <p class="elements__text">Гора Эльбрус</p>
+          <button class="elements__like-button"></button>
+        </li>
+        <li class="elements__item">
+          <img class="elements__image" src="./images/place-dombay.jpg" alt="Горы с заснеженными вершинами">
+          <p class="elements__text">Домбай</p>
+          <button class="elements__like-button"></button>
+        </li>
+        <li class="elements__item">
+          <img class="elements__image" src="./images/place-karachaevsk.jpg" alt="Здание в горах">
+          <p class="elements__text">Карачаево-Черкессия</p>
+          <button class="elements__like-button"></button>
+        </li>
+      </ul>
+    </section>
+    <section class="popup popup_opened">
+      <form class="popup__container">
+        <h2 class="popup__name">Редактировать профиль</h2>
+        <fieldset class="popup__contact-info">
+          <input class="popup__item" type="text" name="heading" placeholder="Жак-Ив Кусто" required>
+          <input class="popup__item" type="text" name="subheading" placeholder="Исследователь океана" required>
+        </fieldset>
+        <button class="popup__save-button">Сохранить</button>
+        <img class="popup__close-icon" src="./images/close-icon.svg" alt="Иконка закрытия">
+      </form>
+    </section>
+  </main>
+  <footer class="footer">
+    <p class="footer__copyright">&copy; 2022 Mesto Russia</p>
+  </footer>
+</body>
+
+</html>

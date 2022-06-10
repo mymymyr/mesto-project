@@ -1,0 +1,17 @@
+.header__logo {
+  display: inline-block;
+  min-width: 142px;
+  min-height: 33px;
+  background: center/contain no-repeat url("../../../images/header-logo.svg");
+  margin-bottom: 41px;
+}
+
+@media screen and (max-width: 768px) {
+  .header__logo {
+    margin-bottom: 32px;
+    margin-left: 27px;
+    min-width: 104px;
+    min-height: 24px;
+  }
+}
+
