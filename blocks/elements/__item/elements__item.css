@@ -11,4 +11,5 @@
   grid-template-areas:
     "image image"
     "text like-button";
+  position: relative;
 }
