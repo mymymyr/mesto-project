@@ -12,7 +12,7 @@
 }
 
 .popup__item:focus {
-  outline-color: red; /* цвет обводки — жёлтый */
+  outline-color: red;
 }
 
 .popup__item:last-of-type {
