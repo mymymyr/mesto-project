@@ -20,57 +20,49 @@
         <p class="profile__subtitle">Исследователь океана</p>
         <button type="button" class="profile__edit-button" aria-label="Редактировать профиль"></button>
       </div>
-      <button type="button" class="profile__add-button" aria-label="Добавить место"><span class="profile__add-icon"></span></button>
+      <button type="button" class="profile__add-button" aria-label="Добавить место"><span
+          class="profile__add-icon"></span></button>
     </section>
     <section class="elements">
       <ul class="elements__items">
-        <li class="elements__item">
-          <img class="elements__image" src="./images/place-karachaevsk.jpg" alt="Здание в горах">
-          <h2 class="elements__text">Карачаевск</h2>
-          <button type="button" class="elements__like-button elements__like-button_active" aria-label="Поставить лайк"></button>
-        </li>
-        <li class="elements__item">
-          <img class="elements__image" src="./images/place-elbrus.jpg" alt="Гора на фоне оранжевого неба">
-          <h2 class="elements__text">Гора Эльбрус</h2>
-          <button type="button" class="elements__like-button" aria-label="Поставить лайк"></button>
-        </li>
-        <li class="elements__item">
-          <img class="elements__image" src="./images/place-dombay.jpg" alt="Горы с заснеженными вершинами">
-          <h2 class="elements__text">Домбай</h2>
-          <button type="button" class="elements__like-button" aria-label="Поставить лайк"></button>
-        </li>
-        <li class="elements__item">
-          <img class="elements__image" src="./images/place-elbrus.jpg" alt="Гора на фоне оранжевого неба">
-          <h2 class="elements__text">Гора Эльбрус</h2>
-          <button type="button" class="elements__like-button" aria-label="Поставить лайк"></button>
-        </li>
-        <li class="elements__item">
-          <img class="elements__image" src="./images/place-dombay.jpg" alt="Горы с заснеженными вершинами">
-          <h2 class="elements__text">Домбай</h2>
-          <button type="button" class="elements__like-button" aria-label="Поставить лайк"></button>
-        </li>
-        <li class="elements__item">
-          <img class="elements__image" src="./images/place-karachaevsk.jpg" alt="Здание в горах">
-          <h2 class="elements__text">Карачаево-Черкессия</h2>
-          <button type="button" class="elements__like-button" aria-label="Поставить лайк"></button>
-        </li>
       </ul>
     </section>
   </main>
   <footer class="footer">
     <p class="footer__copyright">&copy; 2022 Mesto Russia</p>
   </footer>
-  <div class="popup popup_opened">
-    <div class="popup__container">
-      <h2 class="popup__title">Редактировать профиль</h2>
-      <form name="profile-info" class="popup__form">
-        <input class="popup__item" type="text" name="heading" placeholder="Жак-Ив Кусто" required>
-        <input class="popup__item" type="text" name="subheading" placeholder="Исследователь океана" required>
-        <button type="submit" class="popup__save-button">Сохранить</button>
-      </form>
-      <button type="button" class="popup__close-button" aria-label="Закрыть окно"></button>
+  <template id="elements__item-template">
+    <li class="elements__item">
+      <img class="elements__image" src="" alt="">
+      <h2 class="elements__text"></h2>
+      <button type="button" class="elements__like-button" aria-label="Поставить лайк"></button>
+      <button type="button" class="elements__trash-button" aria-label="Удалить"></button>
+    </li>
+  </template>
+  <template class="popup-template">
+    <div class="popup">
+      <div class="popup__container">
+        <h2 class="popup__title"></h2>
+        <form name="profile-info" class="popup__form">
+          <input class="popup__item" type="text" name="heading" placeholder="" required>
+          <input class="popup__item" type="text" name="subheading" placeholder="" required>
+          <button type="submit" class="popup__save-button">Сохранить</button>
+        </form>
+        <button type="button" class="popup__close-button" aria-label="Закрыть окно"></button>
+      </div>
     </div>
-  </div>
+  </template>
+  <template class="popup-view-template">
+    <div class="popup popup_position_img">
+      <div class="popup__container popup__container_position_img">
+        <img class="popup__image" src="" alt="">
+        <h2 class="popup__text"></h2>
+        <button type="button" class="popup__close-button" aria-label="Закрыть окно"></button>
+      </div>
+    </div>
+  </template>
+  <script src="./cards.js"></script>
+  <script src="./script.js"></script>
 </body>
 
 </html>

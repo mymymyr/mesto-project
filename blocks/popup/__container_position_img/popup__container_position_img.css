@@ -1,0 +1,12 @@
+.popup__container_position_img {
+  display: flex;
+  flex-direction: column;
+  background-color: transparent;
+  border-radius: 0;
+}
+
+@media screen and (max-width: 768px) {
+  .popup__container_position_img {
+    margin: 0;
+  }
+}

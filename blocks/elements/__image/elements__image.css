@@ -1,6 +1,8 @@
 .elements__image {
-  max-width: 100%;
-  object-fit: contain;
+  width: 282px;
+  height: 282px;
+  object-fit: cover;
   grid-area: image;
   background-color: #000000;
+  cursor: pointer;
 }
