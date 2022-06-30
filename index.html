@@ -31,6 +31,14 @@
   <footer class="footer">
     <p class="footer__copyright">&copy; 2022 Mesto Russia</p>
   </footer>
+  <template id="elements__item-template">
+    <li class="elements__item">
+      <img class="elements__image" src="" alt="">
+      <h2 class="elements__text"></h2>
+      <button type="button" class="elements__like-button" aria-label="Поставить лайк"></button>
+      <button type="button" class="elements__trash-button" aria-label="Удалить"></button>
+    </li>
+  </template>
   <template class="popup-template">
     <div class="popup">
       <div class="popup__container">
@@ -44,22 +52,15 @@
       </div>
     </div>
   </template>
-  <template class="elements__item-template">
-    <li class="elements__item">
-      <img class="elements__image" src="" alt="">
-      <h2 class="elements__text"></h2>
-      <button type="button" class="elements__like-button" aria-label="Поставить лайк"></button>
-      <button type="button" class="elements__trash-button" aria-label="Удалить"></button>
-    </li>
-  </template>
-  <div class="popup-view">
-    <div class="popup-view__container">
-      <img class="popup-view__image" src="" alt="">
-      <h2 class="popup-view__text"></h2>
-      <button type="button" class="popup__close-button" aria-label="Закрыть окно"></button>
+  <template class="popup-view-template">
+    <div class="popup popup_position_img">
+      <div class="popup__container popup__container_position_img">
+        <img class="popup__image" src="" alt="">
+        <h2 class="popup__text"></h2>
+        <button type="button" class="popup__close-button" aria-label="Закрыть окно"></button>
+      </div>
     </div>
-  </div>
-  </div>
+  </template>
   <script src="./cards.js"></script>
   <script src="./script.js"></script>
 </body>
