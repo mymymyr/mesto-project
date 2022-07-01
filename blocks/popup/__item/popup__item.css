@@ -12,7 +12,7 @@
 }
 
 .popup__item:focus {
-  outline-color: red;
+  outline-color: rgba(140, 139, 139, 0.3);
 }
 
 .popup__item:last-of-type {
