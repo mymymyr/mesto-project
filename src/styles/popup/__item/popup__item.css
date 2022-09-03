@@ -1,7 +1,6 @@
 .popup__item {
   display: block;
   padding: 0;
-  margin-bottom: 30px;
   width: 358px;
   height: 27px;
   border: none;
@@ -15,16 +14,8 @@
   outline-color: rgba(140, 139, 139, 0.3);
 }
 
-.popup__item:last-of-type {
-  margin-bottom: 48px;
-}
-
 @media screen and (max-width: 768px) {
   .popup__item {
     width: 238px;
-  }
-
-  .popup__item:last-of-type {
-    margin-bottom: 45px;
   }
 }

@@ -1,3 +1,4 @@
+import {initialCards} from './cards.js';
 const cssSelectorPopupHeading = '.popup__item[name="heading"]';
 const cssSelectorPopupSubheading = '.popup__item[name="subheading"]';
 const body = document.querySelector('.page');
@@ -47,10 +48,14 @@ btnAdd.addEventListener('click', () => {
 
 function openPopup(popup) {
   popup.classList.add('popup_opened');
+  popup.addEventListener('click', clickOverlay)
+  document.addEventListener('keyup', addEventKeyUpEscape);
 }
 
 function closePopup(popup) {
   popup.classList.remove('popup_opened');
+  popup.removeEventListener('click', clickOverlay)
+  document.removeEventListener('keyup', addEventKeyUpEscape);
 }
 
 function submitHandlerPopupProfileForm(evt) {
@@ -110,4 +115,18 @@ function createCard(name, link) {
   cardImage.alt = name;
   cardImage.src = link;
   return card;
+}
+
+function clickOverlay(evt) {
+  if (evt.target.classList.contains('popup')) {
+    closePopup(evt.target);
+  }
+}
+
+function addEventKeyUpEscape(evt) {
+  if (evt.key === 'Escape') {
+    popupProfile.classList.remove('popup_opened');
+    popupPlace.classList.remove('popup_opened');
+    popupView.classList.remove('popup_opened');
+  }
 }
