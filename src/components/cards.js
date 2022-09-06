@@ -5,7 +5,7 @@ const chelyabinskImage = new URL('../images/place-chelyabinsk.jpg', import.meta.
 const noginskImage = new URL('../images/place-noginsk.jpg', import.meta.url);
 const moscowImage = new URL('../images/place-moscow.jpg', import.meta.url);
 
-export const initialCards = [
+const initialCards = [
   {
     name: 'Сочи',
     link: sochiImage
@@ -31,3 +31,32 @@ export const initialCards = [
     link: moscowImage
   }
 ];
+
+const createCard = (name, link) => {
+  const cardTemplate = document.querySelector('#elements__item-template');
+  const card = cardTemplate.content.querySelector('.elements__item').cloneNode(true);
+  const cardImage = card.querySelector('.elements__image');
+  card.querySelector('.elements__text').textContent = name;
+  cardImage.alt = name;
+  cardImage.src = link;
+  return card;
+};
+
+const toggleLike = (btnLike) => {
+  btnLike.addEventListener('click', () => {
+    btnLike.classList.toggle('elements__like-button_active');
+  });
+};
+
+const deleteCard = (btnTrash) => {
+  btnTrash.addEventListener('click', () => {
+    btnTrash.parentElement.remove();
+  });
+};
+
+const prependCard = (card) => {
+  const cardContainer = document.querySelector('.elements__items');
+  cardContainer.prepend(card);
+};
+
+export { initialCards, createCard, toggleLike, deleteCard, prependCard };
