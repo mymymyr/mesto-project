@@ -25,20 +25,5 @@ const closePopup = (popup) => {
     document.removeEventListener('keyup', addEventKeyUpEscape);
 };
 
-const viewImage = (popupView, img, name) => {
-    const popupViewImg = popupView.querySelector('.popup__image');
-    const popupViewText = popupView.querySelector('.popup__text');
-    popupViewImg.src = img.src;
-    popupViewImg.alt = img.alt;
-    popupViewText.textContent = name;
-};
-
-const addEventForViewImage = (popupView, img, name) => {
-    img.addEventListener('click', () => {
-        openPopup(popupView);
-        viewImage(popupView, img, name);
-    });
-};
-
-export { openPopup, closePopup, addEventForViewImage };
+export { openPopup, closePopup };
 
