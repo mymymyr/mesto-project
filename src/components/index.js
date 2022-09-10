@@ -2,7 +2,7 @@ import '../styles/index.css';
 import {
   object
 } from './data.js';
-import { createCard, addDeleteCard } from './cards.js';
+import { appendCard, prependCard, createCard } from './cards.js';
 import { clearValidationState, enableValidation } from './validate.js';
 import { openPopup, closePopup } from './modal.js';
 import { fetchCards, fetchUserInfo, setUserInfo, addNewCard, setUserAvatar } from './api';
@@ -15,61 +15,36 @@ const cardsContainer = document.querySelector('.elements__items');
 const popupView = document.querySelector('.popup_position_img');
 const popupViewImg = popupView.querySelector('.popup__image');
 const popupViewText = popupView.querySelector('.popup__text');
-const btnClosePopupView = popupView.querySelector('.popup__close-button');
-const popupProfile = document.forms.profile;
-const popupProfileHeadingInput = popupProfile.querySelector(cssSelectorPopupHeading);
-const popupProfileSubheadingInput = popupProfile.querySelector(cssSelectorPopupSubheading);
-const btnFormProfile = popupProfile.querySelector('.button-form');
-const popupPlace = document.forms.place;
-const popupPlaceHeadingInput = popupPlace.querySelector(cssSelectorPopupHeading);
-const popupPlaceSubheadingInput = popupPlace.querySelector(cssSelectorPopupSubheading);
-const btnFormPlace = popupPlace.querySelector('.button-form');
-const popupPhoto = document.forms.photo;
-const popupPhotoInput = popupPhoto.querySelector(cssSelectorPopupHeading);
-const btnFormPhoto = popupPhoto.querySelector('.button-form');
+const formProfile = document.forms.profile;
+const popupProfile = formProfile.closest('.popup');
+const popupProfileHeadingInput = formProfile.querySelector(cssSelectorPopupHeading);
+const popupProfileSubheadingInput = formProfile.querySelector(cssSelectorPopupSubheading);
+const formPlace = document.forms.place;
+const popupPlace = formPlace.closest('.popup');
+const popupPlaceHeadingInput = formPlace.querySelector(cssSelectorPopupHeading);
+const popupPlaceSubheadingInput = formPlace.querySelector(cssSelectorPopupSubheading);
+const formPhoto = document.forms.photo;
+const popupPhoto = formPhoto.closest('.popup');
+const popupPhotoInput = formPhoto.querySelector(cssSelectorPopupHeading);
 const btnAdd = document.querySelector('.profile__add-button');
 const btnEdit = document.querySelector('.profile__edit-button');
 const btnEditPhoto = document.querySelector('.profile__edit-photo-button');
 const avatar = document.querySelector('.profile__avatar');
+const closeButtons = document.querySelectorAll(object.closeBtnSelector);
+
 let userId = '';
 
-const addEventClosePopup = (btnClose, popup) => {
-  btnClose.addEventListener('click', () => {
-    closePopup(popup);
-  });
-};
-
-addEventClosePopup(btnClosePopupView, popupView);
-
-const appendCard = (card) => {
-  cardsContainer.append(card);
-};
-
-const prependCard = (card) => {
-  cardsContainer.prepend(card);
-};
-
-const viewImage = (img, name) => {
-  popupViewImg.src = img.src;
-  popupViewImg.alt = img.alt;
-  popupViewText.textContent = name;
-};
-
-const addEventForViewImage = (img, name) => {
-  img.addEventListener('click', () => {
-    openPopup(popupView);
-    viewImage(img, name);
-  });
-};
+closeButtons.forEach((button) => {
+  // находим 1 раз ближайший к крестику попап 
+  const popup = button.closest('.popup');
+  // устанавливаем обработчик закрытия на крестик
+  button.addEventListener('click', () => closePopup(popup));
+});
 
 const fillCards = (data) => {
   data.forEach((item) => {
-    const card = createCard(item.name, item.link, item._id, item.likes, userId);
-    addEventForViewImage(card.querySelector('.elements__image'));
-    if (item.owner._id === userId) {
-      addDeleteCard(card.querySelector('.elements__trash-button'));
-    }
-    appendCard(card);
+    const card = createCard(popupView, popupViewImg, popupViewText, item, userId);
+    appendCard(cardsContainer, card);
   });
 }
 
@@ -82,7 +57,7 @@ const addBtnsClickPopupProfile = (popupProfile) => {
   btnEdit.addEventListener('click', () => {
     openPopup(popupProfile);
     setValueFormProfileInputs();
-    clearValidationState(popupProfile, object);
+    clearValidationState(formProfile, object);
   });
 };
 
@@ -105,90 +80,73 @@ const fillUserInfo = (data) => {
   userId = data._id;
 }
 
-const submitHandlerPopupProfileForm = (evt, popup) => {
+const handleSubmitPopupProfileForm = (evt, popup) => {
   evt.preventDefault();
-  const prevValue = btnFormProfile.textContent;
-  btnFormProfile.textContent = 'Сохранение...';
+  const prevValue = evt.submitter.textContent;
+  evt.submitter.textContent = 'Сохранение...';
   setUserInfo(popupProfileHeadingInput.value, popupProfileSubheadingInput.value).then((res) => {
     fillUserInfo(res);
     closePopup(popup);
-    btnFormProfile.textContent = prevValue;
   }).catch((err) => {
-    btnFormProfile.textContent = prevValue;
-    console.log(`Ошибка ${err.message}`);
-  })
-};
-
-const submitHandlerPopupPlaceForm = (evt, popupForm, popup) => {
-  evt.preventDefault();
-  const prevValue = btnFormPlace.textContent;
-  btnFormPlace.textContent = 'Сохранение...';
-
-  addNewCard(popupPlaceHeadingInput.value, popupPlaceSubheadingInput.value).then((res) => {
-    const card = createCard(res.name, res.link, res._id, res.likes, userId);
-    addDeleteCard(card.querySelector('.elements__trash-button'));
-    addEventForViewImage(card.querySelector('.elements__image'));
-    prependCard(card);
-    closePopup(popup);
-    popupForm.reset();
-    btnFormPlace.textContent = prevValue;
-  }).catch((err) => {
-    btnFormPlace.textContent = prevValue;
-    console.log(`Ошибка ${err.message}`);
+    console.log(`Ошибка ${err}`);
+  }).finally(() => {
+    evt.submitter.textContent = prevValue;
   });
 };
 
-const submitHandlerPopupPhotoForm = (evt, popupForm, popup) => {
+const handleSubmitPopupPlaceForm = (evt, popupForm, popup) => {
   evt.preventDefault();
-  const prevValue = btnFormPhoto.textContent;
-  btnFormPhoto.textContent = 'Сохранение...';
+  const prevValue = evt.submitter.textContent;
+  evt.submitter.textContent = 'Сохранение...';
+  addNewCard(popupPlaceHeadingInput.value, popupPlaceSubheadingInput.value).then((res) => {
+    const card = createCard(popupView, popupViewImg, popupViewText, res, userId);
+    prependCard(cardsContainer, card);
+    closePopup(popup);
+    popupForm.reset();
+    clearValidationState(popup, object);
+  }).catch((err) => {
+    console.log(`Ошибка ${err}`);
+  }).finally(() => {
+    evt.submitter.textContent = prevValue;
+  });
+};
 
+const handleSubmitPopupPhotoForm = (evt, popupForm, popup) => {
+  evt.preventDefault();
+  const prevValue = evt.submitter.textContent;
+  evt.submitter.textContent = 'Сохранение...';
   setUserAvatar(popupPhotoInput.value).then((res) => {
     avatar.src = res.avatar;
     closePopup(popup);
     popupForm.reset();
-    btnFormPhoto.textContent = prevValue;
+    clearValidationState(popup, object);
   }).catch(() => {
-    btnFormPhoto.textContent = prevValue;
-    console.log(`Ошибка ${err.message}`);
+    console.log(`Ошибка ${err}`);
+  }).finally(() => {
+    evt.submitter.textContent = prevValue;
   });
 
 };
 
-const enableListeners = (object) => {
-  const formList = Array.from(document.querySelectorAll(object.formSelector));
-  formList.forEach((formElement) => {
-    const popup = formElement.parentElement.parentElement;
-    const popupButtonClose = popup.querySelector(object.closeBtnSelector);
-    if (formElement === popupProfile) {
-      formElement.addEventListener('submit', (evt) => submitHandlerPopupProfileForm(evt, popup));
-      setValueFormProfileInputs();
-      addBtnsClickPopupProfile(popup);
-    } else if (formElement === popupPlace) {
-      formElement.addEventListener('submit', (evt) => submitHandlerPopupPlaceForm(evt, formElement, popup));
-      addBtnsClickPopupPlace(popup);
-    } else if (formElement === popupPhoto) {
-      formElement.addEventListener('submit', (evt) => submitHandlerPopupPhotoForm(evt, formElement, popup));
-      addBtnsClickPopupPhoto(popup);
-    }
-    addEventClosePopup(popupButtonClose, popup);
-  });
+const enableListeners = () => {
+  formProfile.addEventListener('submit', (evt) => handleSubmitPopupProfileForm(evt, popupProfile));
+  addBtnsClickPopupProfile(popupProfile);
+  setValueFormProfileInputs();
+
+  formPlace.addEventListener('submit', (evt) => handleSubmitPopupPlaceForm(evt, formPlace, popupPlace));
+  addBtnsClickPopupPlace(popupPlace);
+
+  formPhoto.addEventListener('submit', (evt) => handleSubmitPopupPhotoForm(evt, formPhoto, popupPhoto));
+  addBtnsClickPopupPhoto(popupPhoto);
+
 };
 
-enableListeners(object);
+enableListeners();
 enableValidation(object);
 
 function fillData() {
-  fetchUserInfo().then((res) => fillUserInfo(res))
-    .then(() => {
-      fetchCards()
-        .then((res) => fillCards(res))
-        .catch((err) => {
-          console.log(err.message);
-        })
-    }).catch((err) => {
-      console.log(err.message);
-    });
+  Promise.all([fetchUserInfo().then((res) => fillUserInfo(res)), fetchCards()
+    .then((res) => fillCards(res))]).catch((err) => console.log(err));
 }
 
 fillData();
