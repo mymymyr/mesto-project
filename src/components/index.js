@@ -145,11 +145,12 @@ enableListeners();
 enableValidation(object);
 
 function fillData() {
-  Promise.all([fetchUserInfo().then((res) => fillUserInfo(res)), fetchCards()
-    .then((res) => fillCards(res))]).catch((err) => console.log(err));
+  Promise.all([fetchUserInfo(), fetchCards()])
+    .then(([userInfo, initialCards]) => {
+      fillUserInfo(userInfo);
+      fillCards(initialCards);
+    })
+    .catch((err) => console.log(err));
 }
 
 fillData();
-
-
-
