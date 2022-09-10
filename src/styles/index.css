@@ -8,6 +8,7 @@
 @import url("./profile/__add-icon/profile__add-icon.css");
 @import url("./profile/__avatar/profile__avatar.css");
 @import url("./profile/__edit-button/profile__edit-button.css");
+@import url("./profile/__edit-photo-button/profile__edit-photo-button.css");
 @import url("./profile/__info/profile__info.css");
 @import url("./profile/__subtitle/profile__subtitle.css");
 @import url("./profile/__title/profile__title.css");
@@ -17,6 +18,7 @@
 @import url("./elements/__items/elements__items.css");
 @import url("./elements/__like-button/elements__like-button.css");
 @import url("./elements/__like-button/_active/elements__like-button_active.css");
+@import url("./elements/__like-counter/elements__like-counter.css");
 @import url("./elements/__text/elements__text.css");
 @import url("./elements/__trash-button/elements__trash-button.css");
 @import url("./elements/elements.css");

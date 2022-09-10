@@ -10,6 +10,7 @@
   align-items: center;
   grid-template-areas:
     "image image"
-    "text like-button";
+    "text like-button"
+    "text like-counter";
   position: relative;
 }

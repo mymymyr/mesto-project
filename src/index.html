@@ -13,7 +13,9 @@
   </header>
   <main class="content">
     <section class="profile">
-      <img class="profile__avatar" src="<%=require('./images/avatar-cousteau.jpg')%>" alt="Фотография профиля Кусто">
+      <button class="profile__edit-photo-button" type="button" aria-label="Редактировать фотографию профиля">
+        <img class="profile__avatar" src="<%=require('./images/avatar-cousteau.jpg')%>" alt="Фотография профиля">
+      </button>
       <div class="profile__info">
         <h1 class="profile__title">Жак-Ив Кусто</h1>
         <p class="profile__subtitle">Исследователь океана</p>
@@ -42,7 +44,7 @@
           maxlength="200" pattern="^[a-zA-Zа-яА-ЯёЁ\- ]+$"
           data-error-message="Разрешены только латинские буквы, кириллические буквы, знаки дефиса и пробелы.">
         <span class="popup__input-error subheading-error"></span>
-        <button class="popup__save-button" type="submit">Сохранить</button>
+        <button class="button-form popup__save-button" type="submit">Сохранить</button>
       </form>
       <button class="popup__close-button" type="button" aria-label="Закрыть окно"></button>
     </div>
@@ -57,7 +59,7 @@
         <span class="popup__input-error heading-error"></span>
         <input class="popup__item" id="subheading" type="url" placeholder="Ссылка на картинку" required>
         <span class="popup__input-error subheading-error"></span>
-        <button class="popup__save-button" type="submit">Создать</button>
+        <button class="button-form popup__save-button" type="submit">Создать</button>
       </form>
       <button class="popup__close-button" type="button" aria-label="Закрыть окно"></button>
     </div>
@@ -69,12 +71,24 @@
       <button class="popup__close-button" type="button" aria-label="Закрыть окно"></button>
     </div>
   </div>
+  <div class="popup popup_position_photo-profile">
+    <div class="popup__container">
+      <h2 class="popup__title">Обновить аватар</h2>
+      <form class="popup__form" name="photo">
+        <input class="popup__item" id="heading" type="url" placeholder="Ссылка на картинку" required>
+        <span class="popup__input-error heading-error"></span>
+        <button class="button-form popup__save-button" type="submit">Сохранить</button>
+      </form>
+      <button class="popup__close-button" type="button" aria-label="Закрыть окно"></button>
+    </div>
+  </div>
   <template id="elements__item-template">
     <li class="elements__item">
       <img class="elements__image" src="" alt="">
       <h2 class="elements__text"></h2>
       <button class="elements__like-button" type="button" aria-label="Поставить лайк"></button>
       <button class="elements__trash-button" type="button" aria-label="Удалить"></button>
+      <span class="elements__like-counter"></span>
     </li>
   </template>
 </body>

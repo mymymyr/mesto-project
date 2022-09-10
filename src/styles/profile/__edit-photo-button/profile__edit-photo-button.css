@@ -1,0 +1,32 @@
+.profile__edit-photo-button {
+    cursor: pointer;
+    background-color: #000000;
+    border: none;
+    padding: 0;
+    border-radius: 50%;
+    max-width: 120px;
+    max-height: 120px;
+    margin-right: 30px;
+    overflow: hidden;
+    position: relative;
+}
+
+.profile__edit-photo-button:hover .profile__avatar {
+    opacity: 0.2;
+}
+
+.profile__edit-photo-button:hover::after {
+    content: "";
+    position: absolute;
+    top: 47px;
+    left: 47px;
+    height: 26px;
+    width: 26px;
+    background: center / contain no-repeat url("../../../images/profile-edit.svg");
+}
+
+@media screen and (max-width: 768px) {
+    .profile__edit-photo-button {
+        margin-right: 0;
+    }
+}

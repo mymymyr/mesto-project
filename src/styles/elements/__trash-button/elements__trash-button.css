@@ -1,4 +1,5 @@
 .elements__trash-button {
+  display: none;
   background: center / contain no-repeat url("../../../images/trash.svg");
   border: none;
   position: absolute;

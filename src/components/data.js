@@ -32,6 +32,7 @@ const initialCards = [
     }
 ];
 
+
 const object = {
     formSelector: '.popup__form',
     inputSelector: '.popup__item',
