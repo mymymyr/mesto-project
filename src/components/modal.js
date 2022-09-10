@@ -18,13 +18,13 @@ function handleEscapeKey(evt) {
 
 const openPopup = (popup) => {
     popup.classList.add('popup_opened');
-    popup.addEventListener('click', clickOverlay);
+    popup.addEventListener('mousedown', clickOverlay);
     document.addEventListener('keyup', handleEscapeKey);
 };
 
 const closePopup = (popup) => {
     popup.classList.remove('popup_opened');
-    popup.removeEventListener('click', clickOverlay);
+    popup.removeEventListener('mousedown', clickOverlay);
     document.removeEventListener('keyup', handleEscapeKey);
 };
 

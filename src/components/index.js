@@ -35,9 +35,7 @@ const closeButtons = document.querySelectorAll(object.closeBtnSelector);
 let userId = '';
 
 closeButtons.forEach((button) => {
-  // находим 1 раз ближайший к крестику попап 
   const popup = button.closest('.popup');
-  // устанавливаем обработчик закрытия на крестик
   button.addEventListener('click', () => closePopup(popup));
 });
 
