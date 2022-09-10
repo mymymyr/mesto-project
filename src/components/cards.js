@@ -8,27 +8,27 @@ const setCounterLikesForCard = (card, counter) => {
 
 const toggleLike = (card) => {
   const btnLike = card.querySelector('.elements__like-button');
- 
+
   btnLike.addEventListener('click', () => {
     let promiseObject;
-    if(btnLike.classList.contains('elements__like-button_active')) {
+    if (btnLike.classList.contains('elements__like-button_active')) {
       promiseObject = unsetLike(card.id);
     } else {
       promiseObject = setLike(card.id);
     }
     promiseObject.then((res) => {
-        setCounterLikesForCard(card, res.likes.length);
-    });
-    btnLike.classList.toggle('elements__like-button_active');
-
+      setCounterLikesForCard(card, res.likes.length);
+      btnLike.classList.toggle('elements__like-button_active');
+    }).catch((err) => console.log(err.message));
   });
 };
 
 const addDeleteCard = (btnTrash) => {
   btnTrash.style.display = 'block';
   btnTrash.addEventListener('click', () => {
-    deleteCard(btnTrash.parentElement.id);
-    btnTrash.parentElement.remove();
+    deleteCard(btnTrash.parentElement.id).then(() => {
+      btnTrash.parentElement.remove();
+    }).catch((err) => console.log(err.message));
   });
 };
 

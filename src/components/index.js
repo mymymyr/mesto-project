@@ -1,6 +1,6 @@
 import '../styles/index.css';
 import {
-  initialCards, object
+  object
 } from './data.js';
 import { createCard, addDeleteCard } from './cards.js';
 import { clearValidationState, enableValidation } from './validate.js';
@@ -19,18 +19,19 @@ const btnClosePopupView = popupView.querySelector('.popup__close-button');
 const popupProfile = document.forms.profile;
 const popupProfileHeadingInput = popupProfile.querySelector(cssSelectorPopupHeading);
 const popupProfileSubheadingInput = popupProfile.querySelector(cssSelectorPopupSubheading);
+const btnFormProfile = popupProfile.querySelector('.button-form');
 const popupPlace = document.forms.place;
 const popupPlaceHeadingInput = popupPlace.querySelector(cssSelectorPopupHeading);
 const popupPlaceSubheadingInput = popupPlace.querySelector(cssSelectorPopupSubheading);
+const btnFormPlace = popupPlace.querySelector('.button-form');
 const popupPhoto = document.forms.photo;
 const popupPhotoInput = popupPhoto.querySelector(cssSelectorPopupHeading);
+const btnFormPhoto = popupPhoto.querySelector('.button-form');
 const btnAdd = document.querySelector('.profile__add-button');
 const btnEdit = document.querySelector('.profile__edit-button');
 const btnEditPhoto = document.querySelector('.profile__edit-photo-button');
 const avatar = document.querySelector('.profile__avatar');
-
 let userId = '';
-
 
 const addEventClosePopup = (btnClose, popup) => {
   btnClose.addEventListener('click', () => {
@@ -39,6 +40,10 @@ const addEventClosePopup = (btnClose, popup) => {
 };
 
 addEventClosePopup(btnClosePopupView, popupView);
+
+const appendCard = (card) => {
+  cardsContainer.append(card);
+};
 
 const prependCard = (card) => {
   cardsContainer.prepend(card);
@@ -64,7 +69,7 @@ const fillCards = (data) => {
     if (item.owner._id === userId) {
       addDeleteCard(card.querySelector('.elements__trash-button'));
     }
-    prependCard(card);
+    appendCard(card);
   });
 }
 
@@ -102,23 +107,22 @@ const fillUserInfo = (data) => {
 
 const submitHandlerPopupProfileForm = (evt, popup) => {
   evt.preventDefault();
-  const buttonForm = popup.querySelector('.button-form');
-  const prevValue = buttonForm.textContent;
-  buttonForm.textContent = 'Сохранение...';
+  const prevValue = btnFormProfile.textContent;
+  btnFormProfile.textContent = 'Сохранение...';
   setUserInfo(popupProfileHeadingInput.value, popupProfileSubheadingInput.value).then((res) => {
     fillUserInfo(res);
     closePopup(popup);
-    buttonForm.textContent = prevValue;
-  }).catch(() => {
-    buttonForm.textContent = prevValue;
+    btnFormProfile.textContent = prevValue;
+  }).catch((err) => {
+    btnFormProfile.textContent = prevValue;
+    console.log(`Ошибка ${err.message}`);
   })
 };
 
 const submitHandlerPopupPlaceForm = (evt, popupForm, popup) => {
   evt.preventDefault();
-  const buttonForm = popup.querySelector('.button-form');
-  const prevValue = buttonForm.textContent;
-  buttonForm.textContent = 'Сохранение...';
+  const prevValue = btnFormPlace.textContent;
+  btnFormPlace.textContent = 'Сохранение...';
 
   addNewCard(popupPlaceHeadingInput.value, popupPlaceSubheadingInput.value).then((res) => {
     const card = createCard(res.name, res.link, res._id, res.likes, userId);
@@ -127,25 +131,26 @@ const submitHandlerPopupPlaceForm = (evt, popupForm, popup) => {
     prependCard(card);
     closePopup(popup);
     popupForm.reset();
-    buttonForm.textContent = prevValue;
-  }).catch(() => {
-    buttonForm.textContent = prevValue;
+    btnFormPlace.textContent = prevValue;
+  }).catch((err) => {
+    btnFormPlace.textContent = prevValue;
+    console.log(`Ошибка ${err.message}`);
   });
 };
 
 const submitHandlerPopupPhotoForm = (evt, popupForm, popup) => {
   evt.preventDefault();
-  const buttonForm = popup.querySelector('.button-form');
-  const prevValue = buttonForm.textContent;
-  buttonForm.textContent = 'Сохранение...';
+  const prevValue = btnFormPhoto.textContent;
+  btnFormPhoto.textContent = 'Сохранение...';
 
   setUserAvatar(popupPhotoInput.value).then((res) => {
     avatar.src = res.avatar;
     closePopup(popup);
     popupForm.reset();
-    buttonForm.textContent = prevValue;
+    btnFormPhoto.textContent = prevValue;
   }).catch(() => {
-    buttonForm.textContent = prevValue;
+    btnFormPhoto.textContent = prevValue;
+    console.log(`Ошибка ${err.message}`);
   });
 
 };
@@ -173,15 +178,17 @@ const enableListeners = (object) => {
 enableListeners(object);
 enableValidation(object);
 
-
-
 function fillData() {
   fetchUserInfo().then((res) => fillUserInfo(res))
     .then(() => {
-      console.log(userId);
-      fetchCards().then((res) => fillCards(res))
+      fetchCards()
+        .then((res) => fillCards(res))
+        .catch((err) => {
+          console.log(err.message);
+        })
+    }).catch((err) => {
+      console.log(err.message);
     });
-
 }
 
 fillData();
