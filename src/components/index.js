@@ -1,11 +1,20 @@
 import '../styles/index.css';
+import Api from './api.js';
 import {
   object
 } from './data.js';
 import { appendCard, prependCard, createCard } from './cards.js';
 import { clearValidationState, enableValidation } from './validate.js';
 import { openPopup, closePopup } from './modal.js';
-import { fetchCards, fetchUserInfo, setUserInfo, addNewCard, setUserAvatar } from './api';
+
+export const api = new Api({
+  baseUrl: "https://nomoreparties.co/v1/plus-cohort-14/",
+  headers: {
+    authorization: "eaada802-eae7-468f-b2f3-51d625f02b5e",
+    "Content-Type": "application/json",
+  },
+});
+
 
 const cssSelectorPopupHeading = '.popup__item[id="heading"]';
 const cssSelectorPopupSubheading = '.popup__item[id="subheading"]';
@@ -82,7 +91,7 @@ const handleSubmitPopupProfileForm = (evt, popup) => {
   evt.preventDefault();
   const prevValue = evt.submitter.textContent;
   evt.submitter.textContent = 'Сохранение...';
-  setUserInfo(popupProfileHeadingInput.value, popupProfileSubheadingInput.value).then((res) => {
+  api.setUserInfo(popupProfileHeadingInput.value, popupProfileSubheadingInput.value).then((res) => {
     fillUserInfo(res);
     closePopup(popup);
   }).catch((err) => {
@@ -96,7 +105,7 @@ const handleSubmitPopupPlaceForm = (evt, popupForm, popup) => {
   evt.preventDefault();
   const prevValue = evt.submitter.textContent;
   evt.submitter.textContent = 'Сохранение...';
-  addNewCard(popupPlaceHeadingInput.value, popupPlaceSubheadingInput.value).then((res) => {
+  api.addNewCard(popupPlaceHeadingInput.value, popupPlaceSubheadingInput.value).then((res) => {
     const card = createCard(popupView, popupViewImg, popupViewText, res, userId);
     prependCard(cardsContainer, card);
     closePopup(popup);
@@ -113,7 +122,7 @@ const handleSubmitPopupPhotoForm = (evt, popupForm, popup) => {
   evt.preventDefault();
   const prevValue = evt.submitter.textContent;
   evt.submitter.textContent = 'Сохранение...';
-  setUserAvatar(popupPhotoInput.value).then((res) => {
+  api.setUserAvatar(popupPhotoInput.value).then((res) => {
     avatar.src = res.avatar;
     closePopup(popup);
     popupForm.reset();
@@ -143,7 +152,7 @@ enableListeners();
 enableValidation(object);
 
 function fillData() {
-  Promise.all([fetchUserInfo(), fetchCards()])
+  Promise.all([api.fetchUserInfo(), api.getInitialCards()])
     .then(([userInfo, initialCards]) => {
       fillUserInfo(userInfo);
       fillCards(initialCards);
@@ -152,3 +161,4 @@ function fillData() {
 }
 
 fillData();
+

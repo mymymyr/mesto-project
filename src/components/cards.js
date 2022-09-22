@@ -1,11 +1,14 @@
-import { deleteCard, unsetLike, setLike } from "./api";
+// import { deleteCard, unsetLike, setLike } from "./api";
+import {api} from "./index.js";
+// cверху костыль
 import { openPopup } from "./modal";
+
 
 const appendCard = (cardsContainer, card) => {
   cardsContainer.append(card);
 };
 
-const prependCard = (cardsContainer, card) => {
+const prependCard = (cardsContainer, card ) => {
   cardsContainer.prepend(card);
 };
 
@@ -32,9 +35,9 @@ const toggleLike = (card, likeCounter) => {
   btnLike.addEventListener('click', () => {
     let promiseObject;
     if (btnLike.classList.contains('elements__like-button_active')) {
-      promiseObject = unsetLike(card.id);
+      promiseObject = api.unsetLike(card.id);
     } else {
-      promiseObject = setLike(card.id);
+      promiseObject = api.setLike(card.id);
     }
     promiseObject.then((res) => {
       setCounterLikesForCard(likeCounter, res.likes.length);
@@ -47,7 +50,7 @@ const addDeleteCard = (btnTrash) => {
   btnTrash.style.display = 'block';
   btnTrash.addEventListener('click', () => {
     const card = btnTrash.closest('.elements__item');
-    deleteCard(card.id).then(() => {
+    api.deleteCard(card.id).then(() => {
       card.remove();
     }).catch((err) => console.log(err));
   });
