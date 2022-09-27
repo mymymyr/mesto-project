@@ -10,7 +10,7 @@ export default class Card {
   }
 
   checkLike() {
-    return this.likes.some(like => like._id === this._userID);
+    return this.likes.some(like => like._id === this._userId);
   }
 
   renderLike() {

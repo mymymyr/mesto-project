@@ -7,7 +7,7 @@ import { appendCard, prependCard, createCard } from "./cards.js";
 import { clearValidationState, enableValidation } from "./validate.js";
 import { openPopup, closePopup } from "./modal.js";
 import UserInfo from "./UserInfo";
-import { userInfoSelectors } from "./constants.js";
+import { userInfoSelectors, cardTemplate, cardsContainer } from "./constants.js";
 
 export const api = new Api({
   baseUrl: "https://nomoreparties.co/v1/plus-cohort-14",
@@ -17,27 +17,35 @@ export const api = new Api({
   },
 });
 
-// const places = new Section(
-//   {
-//     data: cardsData,
-//     renderer: (item) => {
-//       const place = new Card(cardsData, user._id, placeTemplate);
-//       const placeElement = place.generate();
-//       places.addItem(placeElement);
-//     },
-//   },
-//   ".elements__items"
-// );
+const userInfo = new UserInfo(userInfoSelectors);
+const placesSection = new Section(
+  {
+    renderer: (item) => {
+      const place = new Card(item, userInfo.getUserInfo().userId, cardTemplate);
+      const placeElement = place.generate();
+      placesSection.addItem(placeElement);
+    },
+  },
+  cardsContainer
+);
+
+Promise.all([api.fetchUserInfo(), api.getInitialCards()])
+  .then(([userData, initialCards]) => {
+    userInfo.setUserInfo(userData);
+    // fillUserInfo(userInfo);
+    // fillCards(initialCards);
+
+    placesSection.renderItems(initialCards);
+  })
+  .catch((err) => console.log(err));
 
 // cardsData - это массив карточек, полученный с сервера (коммент к тому, что выше)
-
-const userInfo = new UserInfo(userInfoSelectors);
 
 const cssSelectorPopupHeading = '.popup__item[id="heading"]';
 const cssSelectorPopupSubheading = '.popup__item[id="subheading"]';
 const profileTitle = document.querySelector(".profile__title");
 const profileSubtitle = document.querySelector(".profile__subtitle");
-const cardsContainer = document.querySelector(".elements__items");
+// const cardsContainer = document.querySelector(".elements__items");
 const popupView = document.querySelector(".popup_position_img");
 const popupViewImg = popupView.querySelector(".popup__image");
 const popupViewText = popupView.querySelector(".popup__text");
@@ -71,18 +79,18 @@ closeButtons.forEach((button) => {
   button.addEventListener("click", () => closePopup(popup));
 });
 
-const fillCards = (data) => {
-  data.forEach((item) => {
-    const card = createCard(
-      popupView,
-      popupViewImg,
-      popupViewText,
-      item,
-      userId
-    );
-    appendCard(cardsContainer, card);
-  });
-};
+// const fillCards = (data) => {
+//   data.forEach((item) => {
+//     const card = createCard(
+//       popupView,
+//       popupViewImg,
+//       popupViewText,
+//       item,
+//       userId
+//     );
+//     appendCard(cardsContainer, card);
+//   });
+// };
 
 const setValueFormProfileInputs = () => {
   popupProfileHeadingInput.value = profileTitle.textContent;
@@ -205,15 +213,3 @@ const enableListeners = () => {
 
 enableListeners();
 enableValidation(object);
-
-function fillData() {
-  Promise.all([api.fetchUserInfo(), api.getInitialCards()])
-    .then(([userData, initialCards]) => {
-      userInfo.setUserInfo(userData);
-      // fillUserInfo(userInfo);
-      fillCards(initialCards);
-    })
-    .catch((err) => console.log(err));
-}
-
-fillData();

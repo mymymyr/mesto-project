@@ -1,9 +1,10 @@
-const cardSelector = '#elements__item-template';
+const cardTemplate = '#elements__item-template';
+const cardsContainer = '.elements__items';
 
 const userInfoSelectors = {
-    profileTitle: ".profile__title",
-    profileSubtitle: ".profile__subtitle",
-    avatar: ".profile__avatar",
+    profileTitle: '.profile__title',
+    profileSubtitle: '.profile__subtitle',
+    avatar: '.profile__avatar',
 };
 
-export {cardSelector, userInfoSelectors};
+export {cardTemplate, cardsContainer, userInfoSelectors};
