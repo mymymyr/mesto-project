@@ -6,28 +6,32 @@ import { object } from "./data.js";
 import { appendCard, prependCard, createCard } from "./cards.js";
 import { clearValidationState, enableValidation } from "./validate.js";
 import { openPopup, closePopup } from "./modal.js";
+import UserInfo from "./UserInfo";
+import { userInfoSelectors } from "./constants.js";
 
 export const api = new Api({
-  baseUrl: "https://nomoreparties.co/v1/plus-cohort-14/",
+  baseUrl: "https://nomoreparties.co/v1/plus-cohort-14",
   headers: {
     authorization: "eaada802-eae7-468f-b2f3-51d625f02b5e",
     "Content-Type": "application/json",
   },
 });
 
-const places = new Section(
-  {
-    data: cardsData,
-    renderer: (item) => {
-      const place = new Card(cardsData, user._id, placeTemplate);
-      const placeElement = place.generate();
-      places.addItem(placeElement);
-    },
-  },
-  ".elements__items"
-);
+// const places = new Section(
+//   {
+//     data: cardsData,
+//     renderer: (item) => {
+//       const place = new Card(cardsData, user._id, placeTemplate);
+//       const placeElement = place.generate();
+//       places.addItem(placeElement);
+//     },
+//   },
+//   ".elements__items"
+// );
 
 // cardsData - это массив карточек, полученный с сервера (коммент к тому, что выше)
+
+const userInfo = new UserInfo(userInfoSelectors);
 
 const cssSelectorPopupHeading = '.popup__item[id="heading"]';
 const cssSelectorPopupSubheading = '.popup__item[id="subheading"]';
@@ -57,7 +61,7 @@ const popupPhotoInput = formPhoto.querySelector(cssSelectorPopupHeading);
 const btnAdd = document.querySelector(".profile__add-button");
 const btnEdit = document.querySelector(".profile__edit-button");
 const btnEditPhoto = document.querySelector(".profile__edit-photo-button");
-const avatar = document.querySelector(".profile__avatar");
+// const avatar = document.querySelector(".profile__avatar");
 const closeButtons = document.querySelectorAll(object.closeBtnSelector);
 
 let userId = "";
@@ -105,12 +109,12 @@ const addBtnsClickPopupPhoto = (popupPhoto) => {
   });
 };
 
-const fillUserInfo = (data) => {
-  profileTitle.textContent = data.name;
-  profileSubtitle.textContent = data.about;
-  avatar.src = data.avatar;
-  userId = data._id;
-};
+// const fillUserInfo = (data) => {
+//   profileTitle.textContent = data.name;
+//   profileSubtitle.textContent = data.about;
+//   avatar.src = data.avatar;
+//   userId = data._id;
+// };
 
 const handleSubmitPopupProfileForm = (evt, popup) => {
   evt.preventDefault();
@@ -122,7 +126,8 @@ const handleSubmitPopupProfileForm = (evt, popup) => {
       popupProfileSubheadingInput.value
     )
     .then((res) => {
-      fillUserInfo(res);
+      userInfo.setUserInfo(res);
+      // fillUserInfo(res);
       closePopup(popup);
     })
     .catch((err) => {
@@ -203,8 +208,9 @@ enableValidation(object);
 
 function fillData() {
   Promise.all([api.fetchUserInfo(), api.getInitialCards()])
-    .then(([userInfo, initialCards]) => {
-      fillUserInfo(userInfo);
+    .then(([userData, initialCards]) => {
+      userInfo.setUserInfo(userData);
+      // fillUserInfo(userInfo);
       fillCards(initialCards);
     })
     .catch((err) => console.log(err));
