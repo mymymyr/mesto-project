@@ -2,10 +2,12 @@ import "../styles/index.css";
 import Api from "./api.js";
 import Section from "./Section";
 import Card from "./Card";
+import Popup from "./Popup";
+import PopupWithImage from "./PopupWithImage";
 import { object } from "./data.js";
 import { appendCard, prependCard, createCard } from "./cards.js";
 import { clearValidationState, enableValidation } from "./validate.js";
-import { openPopup, closePopup } from "./modal.js";
+// import { openPopup, closePopup } from "./modal.js";
 import UserInfo from "./UserInfo";
 import { userInfoSelectors, cardTemplate, cardsContainer } from "./constants.js";
 
@@ -39,7 +41,6 @@ Promise.all([api.fetchUserInfo(), api.getInitialCards()])
   })
   .catch((err) => console.log(err));
 
-// cardsData - это массив карточек, полученный с сервера (коммент к тому, что выше)
 
 const cssSelectorPopupHeading = '.popup__item[id="heading"]';
 const cssSelectorPopupSubheading = '.popup__item[id="subheading"]';
@@ -210,6 +211,31 @@ const enableListeners = () => {
   );
   addBtnsClickPopupPhoto(popupPhoto);
 };
+
+// для слушателей внутри карточки
+const handleImageClick = (name, url) => {
+  popupView.open(name, url);
+};
+
+const toggleLike = () => {
+    let promiseObject;
+    if (btnLike.classList.contains('elements__like-button_active')) {
+      promiseObject = api.unsetLike(card.id);
+    } else {
+      promiseObject = api.setLike(card.id);
+    }
+    promiseObject.then((res) => {
+      setCounterLikesForCard(likeCounter, res.likes.length);
+      btnLike.classList.toggle('elements__like-button_active');
+    }).catch((err) => console.log(err));
+  };
+
+const handleDelete = () => {
+  api.deleteCard(card.id).then(() => {
+  card.remove();
+}).catch((err) => console.log(err));
+}
+
 
 enableListeners();
 enableValidation(object);

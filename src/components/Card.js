@@ -1,3 +1,6 @@
+import Popup from "./Popup";
+import PopupWithImage from "./PopupWithImage";
+
 export default class Card {
   constructor({ _id, name, link, likes, owner }, userId, selector) {
     this._id = _id;
@@ -57,18 +60,18 @@ export default class Card {
     return this._element;
   }
 
-  // _setEventListeners() {
-  //   this._element._btnLike.addEventListener('click', () => {
+  _setEventListeners() {
+    this._element._btnLike.addEventListener('click', () => {
+    this.toggleLike(this)
+    })
 
-  //   })
+    this._element._btnTrash.addEventListener('click', () => {
+    this.handleDelete(this)
+    })
 
-  //   this._element._btnTrash.addEventListener('click', () => {
-
-  //   })
-
-  //   this._element._cardImage.addEventListener('click', (name, link) => {
-
-  //   })
-  // }
+    this._element._cardImage.addEventListener('click', () => {
+    this.handleImageClick (this.name, this.link)
+    })
+  }
 
 }
