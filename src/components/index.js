@@ -21,13 +21,13 @@ const places = new Section(
     renderer: (item) => {
       const place = new Card(cardsData, user._id, placeTemplate);
       const placeElement = place.generate();
-      places.addItem();
+      places.addItem(placeElement);
     },
   },
   ".elements__items"
 );
 
-// cardsData - это массив карточек, полученный с сервера
+// cardsData - это массив карточек, полученный с сервера (коммент к тому, что выше)
 
 const cssSelectorPopupHeading = '.popup__item[id="heading"]';
 const cssSelectorPopupSubheading = '.popup__item[id="subheading"]';
