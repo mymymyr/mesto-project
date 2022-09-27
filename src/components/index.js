@@ -27,6 +27,8 @@ const places = new Section(
   ".elements__items"
 );
 
+// cardsData - это массив карточек, полученный с сервера
+
 const cssSelectorPopupHeading = '.popup__item[id="heading"]';
 const cssSelectorPopupSubheading = '.popup__item[id="subheading"]';
 const profileTitle = document.querySelector(".profile__title");
