@@ -13,7 +13,7 @@ import {
   userInfoSelectors,
   cardTemplate,
   cardsContainer,
-  selectorsPopupView,
+  selectorsPopupWindow,
   configApi
 } from "./constants.js";
 
@@ -36,7 +36,7 @@ const placesSection = new Section(
 );
 
 // экземпляр попапов
-const popupWindow = new PopupWithImage(selectorsPopupView);
+const popupWindow = new PopupWithImage(selectorsPopupWindow);
 // попапы с формами (аватар, инфор пользователя, добавление карточки) - пока пусто
 
 
@@ -81,10 +81,10 @@ const closeButtons = document.querySelectorAll(object.closeBtnSelector);
 
 let userId = "";
 
-closeButtons.forEach((button) => {
-  const popup = button.closest(".popup");
-  button.addEventListener("click", () => closePopup(popup));
-});
+// closeButtons.forEach((button) => {
+//   const popup = button.closest(".popup");
+//   button.addEventListener("click", () => closePopup(popup));
+// });
 
 const setValueFormProfileInputs = () => {
   popupProfileHeadingInput.value = profileTitle.textContent;
@@ -223,6 +223,6 @@ const handleDelete = (card) => {
     })
     .catch((err) => console.log(err));
 };
-
+popupWindow.setEventListeners();
 enableListeners();
 enableValidation(object);

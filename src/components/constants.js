@@ -14,11 +14,11 @@ const userInfoSelectors = {
     avatar: '.profile__avatar',
 };
 
-const selectorsPopupView = {
+const selectorsPopupWindow = {
   popupSelector: ".popup_position_img",
   popupViewImg: ".popup__image",
   popupViewText: ".popup__text",
 };
 
 
-export {cardTemplate, cardsContainer, userInfoSelectors, selectorsPopupView, configApi};
+export {cardTemplate, cardsContainer, userInfoSelectors, selectorsPopupWindow, configApi};

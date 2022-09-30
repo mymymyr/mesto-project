@@ -12,20 +12,18 @@ export default class Popup {
     this._popup.classList.remove('popup_opened');
     document.removeEventListener('keydown', this._handleEscapeKey);
   }
-
-  _handleEscapeKey() {
-    if (evt.key !== 'Escape') {
-      this.close();
-    }
-  }
-
-  _clickOverlay() {
-    if (this.evt.target.classList.contains("popup")) {
+// надо починить закрытие через эскейп
+  _handleEscapeKey(evt) {
+    if (evt.key === 'Escape') {
       this.close();
     }
   }
 
   setEventListeners() {
-    this._popup.addEventListener("click", this._clickOverlay);
+    this._popup.addEventListener("click", (evt) => {
+      if (evt.target === this._popup || evt.target.classList.contains('popup__close-button')) {
+        this.close();
+      }
+    })
   }
 }
