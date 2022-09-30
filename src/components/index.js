@@ -78,6 +78,7 @@ const popupCard = new PopupWithForm(popupSelectors.newCard, handleSubmitPopupCar
 
 // обработчик сабмита данных профиля
 const handleSubmitPopupEdit = async (inputValues) => {
+  popupEdit.renderLoading(true);
   try {
     const { data } = await api.setUserInfo(inputValues);
     userInfo.setUserInfo(data);
@@ -85,12 +86,13 @@ const handleSubmitPopupEdit = async (inputValues) => {
   } catch (err) {
     console.log(`Ошибка ${err}`);
   } finally {
-//рендер
-}
+    popupEdit.renderLoading(false);
+  }
 };
 
 // обработчик сабмита новой карточки
 const handleSubmitPopupCard = async (inputValues) => {
+  popupCard.renderLoading(true);
   try {
     const { data } = await api.addNewCard(inputValues);
     placesSection.addItem(renderCard(data));
@@ -98,12 +100,13 @@ const handleSubmitPopupCard = async (inputValues) => {
   } catch (err) {
     console.log(`Ошибка ${err}`);
   } finally {
-//рендер
+    popupCard.renderLoading(false);
   }
 };
 
 // обработчик сабмита аватара
 const handleSubmitPopupAvatar = async ({ avatar }) => {
+  popupAvatar.renderLoading(true);
   try {
     const { data } = await api.setUserAvatar(avatar);
     userInfo.setUserInfo(data);
@@ -111,8 +114,8 @@ const handleSubmitPopupAvatar = async ({ avatar }) => {
   } catch (err) {
     console.log(`Ошибка ${err}`);
   } finally {
-//рендер
-}
+    popupAvatar.renderLoading(false);
+  }
 };
 
 

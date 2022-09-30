@@ -9,9 +9,12 @@ export default class PopupWithForm extends Popup {
     this._handleSubmitForm = handleSubmitForm;
   }
 
-  renderLoading() {
-    const prevValue = this.evt.submitter.textContent;
-    this.evt.submitter.textContent = "Сохранение...";
+  renderLoading(isLoading, buttonText = "Сохранить") {
+    if (isLoading) {
+      this._submitBtn.textContent = "Сохранение...";
+    } else {
+      this._submitBtn.textContent = buttonText;
+    }
   }
 
   close() {
