@@ -1,8 +1,12 @@
-import Popup from "./Popup";
-import PopupWithImage from "./PopupWithImage";
-
 export default class Card {
-  constructor({ _id, name, link, likes, owner }, userId, selector) {
+  constructor(
+    { _id, name, link, likes, owner },
+    userId,
+    selector,
+    handleImageClick,
+    toggleLike,
+    handleDelete
+  ) {
     this._id = _id;
     this._name = name;
     this._link = link;
@@ -10,20 +14,23 @@ export default class Card {
     this._owner = owner;
     this._userId = userId;
     this._selector = selector;
+    this._handleImageClick = handleImageClick;
+    this._toggleLike = toggleLike;
+    this._handleDelete = handleDelete;
   }
 
   checkLike() {
-    return this.likes.some(like => like._id === this._userId);
+    return this.likes.some((like) => like._id === this._userId);
   }
 
   renderLike() {
-      if (this.checkLike()) {
-        this._btnLike.classList.add('gallery__btn-like_active');
-        this._likeCounter.textContent = this.likes.length;
-      } else {
-        this._btnLike.classList.remove('gallery__btn-like_active');
-        this._likeCounter.textContent = this.likes.length;
-      }
+    if (this.checkLike()) {
+      this._btnLike.classList.add("elements__like-button_active");
+      this._likeCounter.textContent = this.likes.length;
+    } else {
+      this._btnLike.classList.remove("elements__like-button_active");
+      this._likeCounter.textContent = this.likes.length;
+    }
   }
 
   deleteCard() {
@@ -41,6 +48,8 @@ export default class Card {
 
   generate() {
     this._element = this._getElement();
+    this._setEventListeners();
+
     this._cardImage = this._element.querySelector(".elements__image");
     this._cardTitle = this._element.querySelector(".elements__text");
     this._btnTrash = this._element.querySelector(".elements__trash-button");
@@ -54,24 +63,29 @@ export default class Card {
     this.renderLike();
 
     if (this._owner._id === this._userId) {
-      this._btnTrash.style.display = 'block';
+      this._btnTrash.style.display = "block";
     }
 
     return this._element;
   }
 
   _setEventListeners() {
-    this._element._btnLike.addEventListener('click', () => {
-    this.toggleLike(this)
-    })
+    this._element
+      .querySelector(".elements__like-button")
+      .addEventListener("click", () => {
+        this._toggleLike(this);
+      });
 
-    this._element._btnTrash.addEventListener('click', () => {
-    this.handleDelete(this)
-    })
+    this._element
+      .querySelector(".elements__trash-button")
+      .addEventListener("click", () => {
+        this._handleDelete(this);
+      });
 
-    this._element._cardImage.addEventListener('click', () => {
-    this.handleImageClick (this.name, this.link)
-    })
+    this._element
+      .querySelector(".elements__image")
+      .addEventListener("click", () => {
+        this._handleImageClick(this._name, this._link);
+      });
   }
-
 }

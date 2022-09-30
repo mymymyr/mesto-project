@@ -9,21 +9,25 @@ import { appendCard, prependCard, createCard } from "./cards.js";
 import { clearValidationState, enableValidation } from "./validate.js";
 // import { openPopup, closePopup } from "./modal.js";
 import UserInfo from "./UserInfo";
-import { userInfoSelectors, cardTemplate, cardsContainer } from "./constants.js";
+import {
+  userInfoSelectors,
+  cardTemplate,
+  cardsContainer,
+  selectorsPopupView,
+  configApi
+} from "./constants.js";
 
-export const api = new Api({
-  baseUrl: "https://nomoreparties.co/v1/plus-cohort-14",
-  headers: {
-    authorization: "eaada802-eae7-468f-b2f3-51d625f02b5e",
-    "Content-Type": "application/json",
-  },
-});
+// экземпляр апи
+export const api = new Api(configApi);
 
+// экземпляр пользователя
 const userInfo = new UserInfo(userInfoSelectors);
+
+// экземпляр секции с карточками
 const placesSection = new Section(
   {
     renderer: (item) => {
-      const place = new Card(item, userInfo.getUserInfo().userId, cardTemplate);
+      const place = new Card(item, userInfo.getUserInfo().userId, cardTemplate, handleImageClick, toggleLike, handleDelete);
       const placeElement = place.generate();
       placesSection.addItem(placeElement);
     },
@@ -31,25 +35,27 @@ const placesSection = new Section(
   cardsContainer
 );
 
+// экземпляр попапов
+const popupWindow = new PopupWithImage(selectorsPopupView);
+// попапы с формами (аватар, инфор пользователя, добавление карточки) - пока пусто
+
+
+// получение данных с сервера
 Promise.all([api.fetchUserInfo(), api.getInitialCards()])
   .then(([userData, initialCards]) => {
     userInfo.setUserInfo(userData);
-    // fillUserInfo(userInfo);
-    // fillCards(initialCards);
-
     placesSection.renderItems(initialCards);
   })
   .catch((err) => console.log(err));
-
 
 const cssSelectorPopupHeading = '.popup__item[id="heading"]';
 const cssSelectorPopupSubheading = '.popup__item[id="subheading"]';
 const profileTitle = document.querySelector(".profile__title");
 const profileSubtitle = document.querySelector(".profile__subtitle");
 // const cardsContainer = document.querySelector(".elements__items");
-const popupView = document.querySelector(".popup_position_img");
-const popupViewImg = popupView.querySelector(".popup__image");
-const popupViewText = popupView.querySelector(".popup__text");
+// const popupView = document.querySelector(".popup_position_img");
+// const popupViewImg = popupView.querySelector(".popup__image");
+// const popupViewText = popupView.querySelector(".popup__text");
 const formProfile = document.forms.profile;
 const popupProfile = formProfile.closest(".popup");
 const popupProfileHeadingInput = formProfile.querySelector(
@@ -80,19 +86,6 @@ closeButtons.forEach((button) => {
   button.addEventListener("click", () => closePopup(popup));
 });
 
-// const fillCards = (data) => {
-//   data.forEach((item) => {
-//     const card = createCard(
-//       popupView,
-//       popupViewImg,
-//       popupViewText,
-//       item,
-//       userId
-//     );
-//     appendCard(cardsContainer, card);
-//   });
-// };
-
 const setValueFormProfileInputs = () => {
   popupProfileHeadingInput.value = profileTitle.textContent;
   popupProfileSubheadingInput.value = profileSubtitle.textContent;
@@ -118,13 +111,6 @@ const addBtnsClickPopupPhoto = (popupPhoto) => {
   });
 };
 
-// const fillUserInfo = (data) => {
-//   profileTitle.textContent = data.name;
-//   profileSubtitle.textContent = data.about;
-//   avatar.src = data.avatar;
-//   userId = data._id;
-// };
-
 const handleSubmitPopupProfileForm = (evt, popup) => {
   evt.preventDefault();
   const prevValue = evt.submitter.textContent;
@@ -136,7 +122,6 @@ const handleSubmitPopupProfileForm = (evt, popup) => {
     )
     .then((res) => {
       userInfo.setUserInfo(res);
-      // fillUserInfo(res);
       closePopup(popup);
     })
     .catch((err) => {
@@ -213,29 +198,31 @@ const enableListeners = () => {
 };
 
 // для слушателей внутри карточки
-const handleImageClick = (name, url) => {
-  popupView.open(name, url);
+const handleImageClick = (name, link) => {
+  popupWindow.open(name, link);
 };
 
-const toggleLike = () => {
-    let promiseObject;
-    if (btnLike.classList.contains('elements__like-button_active')) {
-      promiseObject = api.unsetLike(card.id);
-    } else {
-      promiseObject = api.setLike(card.id);
-    }
-    promiseObject.then((res) => {
-      setCounterLikesForCard(likeCounter, res.likes.length);
-      btnLike.classList.toggle('elements__like-button_active');
-    }).catch((err) => console.log(err));
-  };
+const toggleLike = async (card) => {
+  try {
+    const data = card.checkLike()
+    ? await api.unsetLike(card._id)
+    : await api.setLike(card._id);
+    card.likes = data.likes;
+    card.renderLike();
+  }
+  catch(err) {
+    console.log(err)
+  }
+};
 
-const handleDelete = () => {
-  api.deleteCard(card.id).then(() => {
-  card.remove();
-}).catch((err) => console.log(err));
-}
-
+const handleDelete = (card) => {
+  api
+    .deleteCard(card._id)
+    .then(() => {
+      card.deleteCard();
+    })
+    .catch((err) => console.log(err));
+};
 
 enableListeners();
 enableValidation(object);
