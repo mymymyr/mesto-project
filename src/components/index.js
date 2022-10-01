@@ -18,7 +18,7 @@ import {
   cardSelectors,
   btnAdd,
   btnAvatar,
-  btnEdit
+  btnEdit,
 } from "./constants.js";
 
 let userId = "";
@@ -83,40 +83,38 @@ const handleSubmitPopupAvatar = async ( avatar ) => {
   }
 };
 
-// экземпляры попапов
-const popupWindow = new PopupWithImage(selectorsPopupWindow);
-const popupEdit = new PopupWithForm(popupSelectors.editInfo, handleSubmitPopupEdit);
-const popupAvatar = new PopupWithForm(popupSelectors.editAvatar, handleSubmitPopupAvatar);
-const popupCard = new PopupWithForm(popupSelectors.newCard, handleSubmitPopupCard);
-
-
 // обработчик сабмита данных профиля
-const handleSubmitPopupEdit = async (inputValues) => {
+const handleSubmitPopupEdit =  (inputValues) => {
   popupEdit.renderLoading(true);
-  try {
-    const { data } = await api.setUserInfo(inputValues);
-    userInfo.setUserInfo(data);
+  api.setUserInfo(inputValues['name'], inputValues['about'])
+  .then(userData => {
+    userInfo.setUserInfo(userData);
     popupEdit.close();
-  } catch (err) {
+  })
+  .catch ((err) => {
     console.log(`Ошибка ${err}`);
-  } finally {
+  })
+  .finally(() => {
     popupEdit.renderLoading(false);
-  }
+  })
 };
 
 // обработчик сабмита новой карточки
-const handleSubmitPopupCard = async (inputValues) => {
+const handleSubmitPopupCard =  (inputValues) => {
   popupCard.renderLoading(true);
-  try {
-    const { data } = await api.addNewCard(inputValues);
-    placesSection.addItem(renderCard(data));
+  api.addNewCard(inputValues['name'], inputValues['link'])
+  .then(cardData => {
+    placesSection.addItem(renderCard(cardData));
     popupCard.close();
-  } catch (err) {
+  })
+  .catch ((err) => {
     console.log(`Ошибка ${err}`);
-  } finally {
+  })
+  .finally(() => {
     popupCard.renderLoading(false);
-  }
+  })
 };
+
 
 // ДЛЯ СЛУШАТЕЛЕЙ ВНУТРИ КАРТОЧКИ
 
@@ -147,6 +145,12 @@ const handleDelete = async (card) => {
     })
     .catch((err) => console.log(err));
 };
+
+// экземпляры попапов
+const popupWindow = new PopupWithImage(selectorsPopupWindow);
+const popupEdit = new PopupWithForm(popupSelectors.editInfo, handleSubmitPopupEdit);
+const popupAvatar = new PopupWithForm(popupSelectors.editAvatar, handleSubmitPopupAvatar);
+const popupCard = new PopupWithForm(popupSelectors.newCard, handleSubmitPopupCard);
 
 // слушатели для модальных окон
 popupWindow.setEventListeners();
