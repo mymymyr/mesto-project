@@ -60,7 +60,7 @@ const placesSection = new Section(
 const renderCard = (cardData) => {
   const card = new Card(
     cardData,
-    user._id,
+    userId,
     cardSelectors,
     handleImageClick,
     toggleLike,
