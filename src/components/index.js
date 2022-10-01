@@ -69,6 +69,20 @@ const renderCard = (cardData) => {
   return card.generate();
 };
 
+// обработчик сабмита аватара
+const handleSubmitPopupAvatar = async ( avatar ) => {
+  popupAvatar.renderLoading(true);
+  try {
+    const data  = await api.setUserAvatar(avatar.heading);
+    userInfo.setUserInfo(data);
+    popupAvatar.close();
+  } catch (err) {
+    console.log(`Ошибка ${err}`);
+  } finally {
+    popupAvatar.renderLoading(false);
+  }
+};
+
 // экземпляры попапов
 const popupWindow = new PopupWithImage(selectorsPopupWindow);
 const popupEdit = new PopupWithForm(popupSelectors.editInfo, handleSubmitPopupEdit);
@@ -103,21 +117,6 @@ const handleSubmitPopupCard = async (inputValues) => {
     popupCard.renderLoading(false);
   }
 };
-
-// обработчик сабмита аватара
-const handleSubmitPopupAvatar = async ({ avatar }) => {
-  popupAvatar.renderLoading(true);
-  try {
-    const { data } = await api.setUserAvatar(avatar);
-    userInfo.setUserInfo(data);
-    popupAvatar.close();
-  } catch (err) {
-    console.log(`Ошибка ${err}`);
-  } finally {
-    popupAvatar.renderLoading(false);
-  }
-};
-
 
 // ДЛЯ СЛУШАТЕЛЕЙ ВНУТРИ КАРТОЧКИ
 
@@ -159,6 +158,5 @@ popupEdit.setEventListeners();
 btnAvatar.addEventListener("click", () => handleOpenPopup(popupAvatar));
 btnEdit.addEventListener("click", () => handleOpenPopupEdit(popupEdit));
 btnAdd.addEventListener("click", () => handleOpenPopup(popupCard));
-
 
 enableValidation(object);
