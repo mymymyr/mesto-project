@@ -1,14 +1,12 @@
-import "../styles/index.css";
-import Api from "./api.js";
-import Section from "./Section";
-import Card from "./Card";
-import PopupWithImage from "./PopupWithImage";
-import PopupWithForm from "./PopupWithForm";
-// import { object } from "./data.js";
-import { handleOpenPopup, handleOpenPopupEdit } from "./utils";
-// import { enableValidation } from "./validate.js";
-import UserInfo from "./UserInfo";
-import FormValidator from "./FormValidator.js";
+import "../../styles/index.css";
+import Api from "../components/Api.js";
+import Section from "../components/Section";
+import Card from "../components/Card";
+import PopupWithImage from "../components/PopupWithImage";
+import PopupWithForm from "../components/PopupWithForm";
+import { handleOpenPopup, handleOpenPopupEdit } from "../utils/utils";
+import UserInfo from "../components/UserInfo";
+import FormValidator from "../components/FormValidator.js";
 import {
   userInfoSelectors,
   cardTemplate,
@@ -21,9 +19,7 @@ import {
   btnAvatar,
   btnEdit,
   object
-} from "./constants.js";
-
-// let userId = "";
+} from "../utils/constants.js";
 
 // экземпляр апи
 export const api = new Api(configApi);
@@ -72,21 +68,22 @@ const renderCard = (cardData) => {
 };
 
 // обработчик сабмита аватара
-const handleSubmitPopupAvatar = async ( avatar ) => {
+const handleSubmitPopupAvatar = async (inputValues) => {
   popupAvatar.renderLoading(true);
   try {
-    const data  = await api.setUserAvatar(avatar.heading);
+    const data  = await api.setUserAvatar(inputValues['avatar']);
     userInfo.setUserInfo(data);
     popupAvatar.close();
   } catch (err) {
     console.log(`Ошибка ${err}`);
   } finally {
     popupAvatar.renderLoading(false);
+    validPopupAvatar.toggleButtonState();
   }
 };
 
 // обработчик сабмита данных профиля
-const handleSubmitPopupEdit =  (inputValues) => {
+const handleSubmitPopupEdit = (inputValues) => {
   popupEdit.renderLoading(true);
   api.setUserInfo(inputValues['name'], inputValues['about'])
   .then(userData => {
@@ -114,6 +111,7 @@ const handleSubmitPopupCard =  (inputValues) => {
   })
   .finally(() => {
     popupCard.renderLoading(false);
+    validPopupCard.toggleButtonState();
   })
 };
 

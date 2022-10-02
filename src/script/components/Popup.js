@@ -12,7 +12,7 @@ export default class Popup {
     this._popup.classList.remove('popup_opened');
     document.removeEventListener('keydown', this._handleEscapeKey.bind(this));
   }
-// надо починить закрытие через эскейп
+
   _handleEscapeKey(evt) {
     if (evt.key === 'Escape') {
       this.close();

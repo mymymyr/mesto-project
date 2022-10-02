@@ -15,4 +15,5 @@ const handleOpenPopupEdit = (popup, validator) => {
   validator.checkInputValidity();
 };
 
+
 export {handleOpenPopup, handleOpenPopupEdit, setValueFormProfileInputs}
