@@ -4,10 +4,11 @@ import Section from "./Section";
 import Card from "./Card";
 import PopupWithImage from "./PopupWithImage";
 import PopupWithForm from "./PopupWithForm";
-import { object } from "./data.js";
+// import { object } from "./data.js";
 import { handleOpenPopup, handleOpenPopupEdit } from "./utils";
 import { enableValidation } from "./validate.js";
 import UserInfo from "./UserInfo";
+import FormValidator from "./FormValidator.js";
 import {
   userInfoSelectors,
   cardTemplate,
@@ -19,9 +20,10 @@ import {
   btnAdd,
   btnAvatar,
   btnEdit,
+  object
 } from "./constants.js";
 
-let userId = "";
+// let userId = "";
 
 // экземпляр апи
 export const api = new Api(configApi);
@@ -43,7 +45,7 @@ const placesSection = new Section(
     renderer: (item) => {
       const place = new Card(
         item,
-        userInfo.getUserInfo().userId,
+        userInfo.getUserId(),
         cardTemplate,
         handleImageClick,
         toggleLike,
@@ -60,7 +62,7 @@ const placesSection = new Section(
 const renderCard = (cardData) => {
   const card = new Card(
     cardData,
-    userId,
+    userInfo.getUserId(),
     cardSelectors,
     handleImageClick,
     toggleLike,
@@ -104,7 +106,7 @@ const handleSubmitPopupCard =  (inputValues) => {
   popupCard.renderLoading(true);
   api.addNewCard(inputValues['name'], inputValues['link'])
   .then(cardData => {
-    placesSection.addItem(renderCard(cardData));
+    placesSection.addItem(renderCard(cardData), true);
     popupCard.close();
   })
   .catch ((err) => {
@@ -158,9 +160,15 @@ popupAvatar.setEventListeners();
 popupCard.setEventListeners();
 popupEdit.setEventListeners();
 
-//  обработчики открытия форм
+// обработчики открытия форм
 btnAvatar.addEventListener("click", () => handleOpenPopup(popupAvatar));
 btnEdit.addEventListener("click", () => handleOpenPopupEdit(popupEdit));
 btnAdd.addEventListener("click", () => handleOpenPopup(popupCard));
 
-enableValidation(object);
+// валидация форм
+const validPopupEdit = new FormValidator(object, popupEdit.getPopup());
+validPopupEdit.enableValidation(object);
+const validPopupAvatar = new FormValidator(object, popupAvatar.getPopup());
+validPopupAvatar.enableValidation(object);
+const validPopupCard = new FormValidator(object, popupCard.getPopup());
+validPopupCard.enableValidation(object);

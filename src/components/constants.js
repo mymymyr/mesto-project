@@ -50,5 +50,14 @@ const formProfile = document.forms.profile;
 const popupProfileHeadingInput = formProfile.querySelector('#heading');
 const popupProfileSubheadingInput = formProfile.querySelector('#subheading');
 
+const object = {
+  formSelector: '.popup__form',
+  inputSelector: '.popup__item',
+  submitButtonSelector: '.popup__save-button',
+  closeBtnSelector: '.popup__close-button',
+  inactiveButtonClass: 'popup__save-button_inactive',
+  inputErrorClass: 'popup__item_type_error',
+  errorClass: 'form__input-error'
+};
 
-export {profileTitle, profileSubtitle, formProfile, popupProfileHeadingInput, popupProfileSubheadingInput, cardTemplate, cardsContainer, userInfoSelectors, selectorsPopupWindow, configApi, popupSelectors, cardSelectors, btnAvatar, btnAdd, btnEdit};
+export {profileTitle, profileSubtitle, formProfile, popupProfileHeadingInput, popupProfileSubheadingInput, cardTemplate, cardsContainer, userInfoSelectors, selectorsPopupWindow, configApi, popupSelectors, cardSelectors, btnAvatar, btnAdd, btnEdit, object};
