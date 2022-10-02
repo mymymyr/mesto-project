@@ -18,6 +18,13 @@ export default class PopupWithForm extends Popup {
 
   close() {
     super.close();
+    if (this._clearValidationCallback) {
+      this._clearValidationCallback();
+    }
+  }
+
+  setClearValidationCallback(callback) {
+    this._clearValidationCallback = callback;
   }
 
   _getInputValues() {

@@ -6,7 +6,7 @@ import PopupWithImage from "./PopupWithImage";
 import PopupWithForm from "./PopupWithForm";
 // import { object } from "./data.js";
 import { handleOpenPopup, handleOpenPopupEdit } from "./utils";
-import { enableValidation } from "./validate.js";
+// import { enableValidation } from "./validate.js";
 import UserInfo from "./UserInfo";
 import FormValidator from "./FormValidator.js";
 import {
@@ -117,7 +117,6 @@ const handleSubmitPopupCard =  (inputValues) => {
   })
 };
 
-
 // ДЛЯ СЛУШАТЕЛЕЙ ВНУТРИ КАРТОЧКИ
 
 //открытие попапа с картинкой
@@ -162,12 +161,13 @@ popupEdit.setEventListeners();
 
 // обработчики открытия форм
 btnAvatar.addEventListener("click", () => handleOpenPopup(popupAvatar));
-btnEdit.addEventListener("click", () => handleOpenPopupEdit(popupEdit));
+btnEdit.addEventListener("click", () => handleOpenPopupEdit(popupEdit, validPopupEdit));
 btnAdd.addEventListener("click", () => handleOpenPopup(popupCard));
 
 // валидация форм
 const validPopupEdit = new FormValidator(object, popupEdit.getPopup());
 validPopupEdit.enableValidation(object);
+popupEdit.setClearValidationCallback(validPopupEdit.clearValidationState.bind(validPopupEdit));
 const validPopupAvatar = new FormValidator(object, popupAvatar.getPopup());
 validPopupAvatar.enableValidation(object);
 const validPopupCard = new FormValidator(object, popupCard.getPopup());

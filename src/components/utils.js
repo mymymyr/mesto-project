@@ -9,9 +9,10 @@ const setValueFormProfileInputs = () => {
   popupProfileSubheadingInput.value = profileSubtitle.textContent;
 };
 
-const handleOpenPopupEdit = (popup) => {
+const handleOpenPopupEdit = (popup, validator) => {
   popup.open();
   setValueFormProfileInputs();
+  validator.checkInputValidity();
 };
 
 export {handleOpenPopup, handleOpenPopupEdit, setValueFormProfileInputs}
