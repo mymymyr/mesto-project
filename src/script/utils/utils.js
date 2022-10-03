@@ -1,3 +1,4 @@
+import UserInfo from '../components/UserInfo';
 import {profileTitle, profileSubtitle, popupProfileHeadingInput, popupProfileSubheadingInput} from './constants';
 
 const handleOpenPopup = (popup) => {
@@ -16,4 +17,4 @@ const handleOpenPopupEdit = (popup, validator) => {
 };
 
 
-export {handleOpenPopup, handleOpenPopupEdit, setValueFormProfileInputs}
+export {handleOpenPopup, handleOpenPopupEdit}

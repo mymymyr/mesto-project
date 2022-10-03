@@ -14,7 +14,6 @@ import {
   selectorsPopupWindow,
   configApi,
   popupSelectors,
-  cardSelectors,
   btnAdd,
   btnAvatar,
   btnEdit,
@@ -59,7 +58,7 @@ const renderCard = (cardData) => {
   const card = new Card(
     cardData,
     userInfo.getUserId(),
-    cardSelectors,
+    cardTemplate,
     handleImageClick,
     toggleLike,
     handleDelete
@@ -78,7 +77,7 @@ const handleSubmitPopupAvatar = async (inputValues) => {
     console.log(`Ошибка ${err}`);
   } finally {
     popupAvatar.renderLoading(false);
-    validPopupAvatar.toggleButtonState();
+    popupAvatar.toggleButtonState();
   }
 };
 
@@ -164,9 +163,9 @@ btnAdd.addEventListener("click", () => handleOpenPopup(popupCard));
 
 // валидация форм
 const validPopupEdit = new FormValidator(object, popupEdit.getPopup());
-validPopupEdit.enableValidation(object);
+validPopupEdit.enableValidation();
 popupEdit.setClearValidationCallback(validPopupEdit.clearValidationState.bind(validPopupEdit));
 const validPopupAvatar = new FormValidator(object, popupAvatar.getPopup());
-validPopupAvatar.enableValidation(object);
+validPopupAvatar.enableValidation();
 const validPopupCard = new FormValidator(object, popupCard.getPopup());
-validPopupCard.enableValidation(object);
+validPopupCard.enableValidation();
