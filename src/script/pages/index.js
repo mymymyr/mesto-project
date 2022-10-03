@@ -158,7 +158,7 @@ popupEdit.setEventListeners();
 
 // обработчики открытия форм
 btnAvatar.addEventListener("click", () => handleOpenPopup(popupAvatar));
-btnEdit.addEventListener("click", () => handleOpenPopupEdit(popupEdit, validPopupEdit));
+btnEdit.addEventListener("click", () => handleOpenPopupEdit(popupEdit, validPopupEdit, userInfo.getUserInfo()));
 btnAdd.addEventListener("click", () => handleOpenPopup(popupCard));
 
 // валидация форм

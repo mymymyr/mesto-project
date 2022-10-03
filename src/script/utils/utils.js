@@ -1,18 +1,17 @@
-import UserInfo from '../components/UserInfo';
-import {profileTitle, profileSubtitle, popupProfileHeadingInput, popupProfileSubheadingInput} from './constants';
+import {popupProfileHeadingInput, popupProfileSubheadingInput} from './constants';
 
 const handleOpenPopup = (popup) => {
   popup.open();
 };
 
-const setValueFormProfileInputs = () => {
-  popupProfileHeadingInput.value = profileTitle.textContent;
-  popupProfileSubheadingInput.value = profileSubtitle.textContent;
+const setValueFormProfileInputs = (info) => {
+  popupProfileHeadingInput.value = info.name;
+  popupProfileSubheadingInput.value = info.about;
 };
 
-const handleOpenPopupEdit = (popup, validator) => {
+const handleOpenPopupEdit = (popup, validator, info) => {
   popup.open();
-  setValueFormProfileInputs();
+  setValueFormProfileInputs(info);
   validator.checkInputValidity();
 };
 
