@@ -27,29 +27,11 @@ const popupSelectors = {
   newCard: '.popup_position_place',
 }
 
-const cardSelectors = {
-  templateSelector: "#elements__item-template",
-  cardSelector: ".elements__item",
-  imgSelector: ".elements__image",
-  titleSelector: ".elements__text",
-  btnLikeSelector: ".elements__like-button",
-  btnLikeActiveSelector: "elements__like-button_active",
-  btnDelSelector: ".elements__trash-button",
-  likeCounterSelector: ".elements__like-counter",
-}
-
 const btnAvatar = document.querySelector(
   ".profile__edit-photo-button"
 );
 const btnAdd = document.querySelector(".profile__add-button");
 const btnEdit = document.querySelector(".profile__edit-button");
-
-const profileTitle = document.querySelector(".profile__title");
-const profileSubtitle = document.querySelector(".profile__subtitle");
-
-const formProfile = document.forms.profile;
-const popupProfileHeadingInput = formProfile.querySelector('#heading');
-const popupProfileSubheadingInput = formProfile.querySelector('#subheading');
 
 const object = {
   formSelector: '.popup__form',
@@ -61,4 +43,4 @@ const object = {
   errorClass: 'form__input-error'
 };
 
-export { profileTitle, profileSubtitle, formProfile, popupProfileHeadingInput, popupProfileSubheadingInput, cardTemplate, cardsContainer, userInfoSelectors, selectorsPopupWindow, configApi, popupSelectors, cardSelectors, btnAvatar, btnAdd, btnEdit, object };
+export { cardTemplate, cardsContainer, userInfoSelectors, selectorsPopupWindow, configApi, popupSelectors, btnAvatar, btnAdd, btnEdit, object };

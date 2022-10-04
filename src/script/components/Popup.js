@@ -1,7 +1,7 @@
 export default class Popup {
-  constructor(selector){
+  constructor(selector) {
     this._popup = document.querySelector(selector);
-    this._handleEscapeKey = this._handleEscapeKey.bind(this)
+    this._handleEscapeKey = this._handleEscapeKey.bind(this);
   }
 
   open() {
