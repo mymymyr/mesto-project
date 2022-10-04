@@ -1,7 +1,8 @@
-import {popupProfileHeadingInput, popupProfileSubheadingInput} from './constants';
+import { popupProfileHeadingInput, popupProfileSubheadingInput } from './constants';
 
-const handleOpenPopup = (popup) => {
+const handleOpenPopup = (popup, validator) => {
   popup.open();
+  validator.clearValidationState();
 };
 
 const setValueFormProfileInputs = (info) => {
@@ -9,11 +10,11 @@ const setValueFormProfileInputs = (info) => {
   popupProfileSubheadingInput.value = info.about;
 };
 
-const handleOpenPopupEdit = (popup, validator, info) => {
+const handleOpenPopupEdit = (popup, info, validator) => {
   popup.open();
   setValueFormProfileInputs(info);
-  validator.checkInputValidity();
+  validator.clearValidationState();
 };
 
 
-export {handleOpenPopup, handleOpenPopupEdit}
+export { handleOpenPopup, handleOpenPopupEdit }

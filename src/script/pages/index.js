@@ -62,14 +62,13 @@ const placesSection = new Section(
 const handleSubmitPopupAvatar = async (inputValues) => {
   popupAvatar.renderLoading(true);
   try {
-    const data  = await api.setUserAvatar(inputValues['avatar']);
+    const data = await api.setUserAvatar(inputValues['avatar']);
     userInfo.setUserInfo(data);
     popupAvatar.close();
   } catch (err) {
     console.log(`Ошибка ${err}`);
   } finally {
     popupAvatar.renderLoading(false);
-    popupAvatar.toggleButtonState();
   }
 };
 
@@ -77,33 +76,32 @@ const handleSubmitPopupAvatar = async (inputValues) => {
 const handleSubmitPopupEdit = (inputValues) => {
   popupEdit.renderLoading(true);
   api.setUserInfo(inputValues['name'], inputValues['about'])
-  .then(userData => {
-    userInfo.setUserInfo(userData);
-    popupEdit.close();
-  })
-  .catch ((err) => {
-    console.log(`Ошибка ${err}`);
-  })
-  .finally(() => {
-    popupEdit.renderLoading(false);
-  })
+    .then(userData => {
+      userInfo.setUserInfo(userData);
+      popupEdit.close();
+    })
+    .catch((err) => {
+      console.log(`Ошибка ${err}`);
+    })
+    .finally(() => {
+      popupEdit.renderLoading(false);
+    })
 };
 
 // обработчик сабмита новой карточки
-const handleSubmitPopupCard =  (inputValues) => {
+const handleSubmitPopupCard = (inputValues) => {
   popupCard.renderLoading(true);
   api.addNewCard(inputValues['name'], inputValues['link'])
-  .then(cardData => {
-    placesSection.addItem(renderCard(cardData), true);
-    popupCard.close();
-  })
-  .catch ((err) => {
-    console.log(`Ошибка ${err}`);
-  })
-  .finally(() => {
-    popupCard.renderLoading(false);
-    validPopupCard.toggleButtonState();
-  })
+    .then(cardData => {
+      placesSection.addItem(renderCard(cardData), true);
+      popupCard.close();
+    })
+    .catch((err) => {
+      console.log(`Ошибка ${err}`);
+    })
+    .finally(() => {
+      popupCard.renderLoading(false);
+    })
 };
 
 // ДЛЯ СЛУШАТЕЛЕЙ ВНУТРИ КАРТОЧКИ
@@ -149,15 +147,21 @@ popupCard.setEventListeners();
 popupEdit.setEventListeners();
 
 // обработчики открытия форм
-btnAvatar.addEventListener("click", () => handleOpenPopup(popupAvatar));
-btnEdit.addEventListener("click", () => handleOpenPopupEdit(popupEdit, validPopupEdit, userInfo.getUserInfo()));
-btnAdd.addEventListener("click", () => handleOpenPopup(popupCard));
+btnAvatar.addEventListener("click", () => handleOpenPopup(popupAvatar, formValidators['photo']));
+btnEdit.addEventListener("click", () => handleOpenPopupEdit(popupEdit, userInfo.getUserInfo(), formValidators['profile']));
+btnAdd.addEventListener("click", () => handleOpenPopup(popupCard, formValidators['place']));
 
 // валидация форм
-const validPopupEdit = new FormValidator(object, popupEdit.getPopup());
-validPopupEdit.enableValidation();
-popupEdit.setClearValidationCallback(validPopupEdit.clearValidationState.bind(validPopupEdit));
-const validPopupAvatar = new FormValidator(object, popupAvatar.getPopup());
-validPopupAvatar.enableValidation();
-const validPopupCard = new FormValidator(object, popupCard.getPopup());
-validPopupCard.enableValidation();
+const formValidators = {}
+
+const enableValidation = (object) => {
+  const formList = Array.from(document.querySelectorAll(object.formSelector));
+  formList.forEach((formElement) => {
+    const validator = new FormValidator(object, formElement);
+    const formName = formElement.getAttribute('name');
+    formValidators[formName] = validator;
+    validator.enableValidation();
+  });
+};
+
+enableValidation(object);

@@ -5,13 +5,14 @@ const configApi = {
   baseUrl: "https://nomoreparties.co/v1/plus-cohort-14",
   headers: {
     authorization: "eaada802-eae7-468f-b2f3-51d625f02b5e",
-    "Content-Type": "application/json"}
-  };
+    "Content-Type": "application/json"
+  }
+};
 
 const userInfoSelectors = {
-    profileTitle: '.profile__title',
-    profileSubtitle: '.profile__subtitle',
-    avatar: '.profile__avatar',
+  profileTitle: '.profile__title',
+  profileSubtitle: '.profile__subtitle',
+  avatar: '.profile__avatar',
 };
 
 const selectorsPopupWindow = {
@@ -60,4 +61,4 @@ const object = {
   errorClass: 'form__input-error'
 };
 
-export {profileTitle, profileSubtitle, formProfile, popupProfileHeadingInput, popupProfileSubheadingInput, cardTemplate, cardsContainer, userInfoSelectors, selectorsPopupWindow, configApi, popupSelectors, cardSelectors, btnAvatar, btnAdd, btnEdit, object};
+export { profileTitle, profileSubtitle, formProfile, popupProfileHeadingInput, popupProfileSubheadingInput, cardTemplate, cardsContainer, userInfoSelectors, selectorsPopupWindow, configApi, popupSelectors, cardSelectors, btnAvatar, btnAdd, btnEdit, object };
