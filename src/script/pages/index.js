@@ -34,25 +34,6 @@ Promise.all([api.fetchUserInfo(), api.getInitialCards()])
 // экземпляр пользователя
 const userInfo = new UserInfo(userInfoSelectors);
 
-// экземпляр секции с карточками
-const placesSection = new Section(
-  {
-    renderer: (item) => {
-      const place = new Card(
-        item,
-        userInfo.getUserId(),
-        cardTemplate,
-        handleImageClick,
-        toggleLike,
-        handleDelete
-      );
-      const placeElement = place.generate();
-      placesSection.addItem(placeElement);
-    },
-  },
-  cardsContainer
-);
-
 //рендер новой карточки
 const renderCard = (cardData) => {
   const card = new Card(
@@ -65,6 +46,17 @@ const renderCard = (cardData) => {
   );
   return card.generate();
 };
+
+// экземпляр секции с карточками
+const placesSection = new Section(
+  {
+    renderer: (item) => {
+      const place = renderCard(item);
+      placesSection.addItem(place);
+    },
+  },
+  cardsContainer
+);
 
 // обработчик сабмита аватара
 const handleSubmitPopupAvatar = async (inputValues) => {
