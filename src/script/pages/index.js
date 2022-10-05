@@ -141,7 +141,6 @@ const popupAvatar = new PopupWithForm(popupSelectors.editAvatar, handleSubmitPop
 const popupCard = new PopupWithForm(popupSelectors.newCard, handleSubmitPopupCard);
 
 // слушатели для модальных окон
-popupWindow.setEventListeners();
 popupAvatar.setEventListeners();
 popupCard.setEventListeners();
 popupEdit.setEventListeners();
